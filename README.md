@@ -44,14 +44,8 @@ This project is set up to run directly in Google Colab with minimal setup.
 4.  **Update Your Notebook Cells**
     Your notebook should have several cells. Make sure the **last two cells** are set up as follows to run the app and the tunnel.
 
-    * **Cell 1 (Run Streamlit in Background):**
-        This cell runs your Streamlit app in the background using `nohup`.
-        ```python
-        !nohup streamlit run blogg.py &
-        ```
-
-    * **Cell 2 (Run Cloudflared Tunnel):**
-        Add a **new final cell** with these commands. This will download `cloudflared`, connect it to your Streamlit app (running on `localhost:8501`), and print your public URL.
+    * **Cell 1 (Run Cloudflared Tunnel):**
+              Add a **new final cell** with these commands. This will download `cloudflared`, connect it to your Streamlit app (running on `localhost:8501`), and print your public URL.
         ```python
         !rm -f cloudflared-linux-amd64*
         !wget [https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64](https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64)
@@ -64,11 +58,18 @@ This project is set up to run directly in Google Colab with minimal setup.
         
         # Get the public URL
         !grep -o 'https://.*\.trycloudflare.com' nohup.out
+        
+        ```
+
+    * **Cell 2 (Run Streamlit in Background):**
+        This cell runs your Streamlit app in the background using `nohup`.
+        ```python
+        !streamlit run blogg.py &
         ```
 
 5.  **Run and View Your App**
     * In the Colab menu, click **"Runtime"** > **"Run all"**.
-    * The **output of the very last cell** will be your public URL (e.g., `https://your-unique-name.trycloudflare.com`).
+    * The **output of !grep -o 'https://.*\.trycloudflare.com' nohup.out will generate your public URL (e.g., `https://your-unique-name.trycloudflare.com`).
     * Click this URL to open your running Streamlit application in a new browser tab!
 
 ---
