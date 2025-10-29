@@ -16,9 +16,10 @@ This is an AI-powered blog post generator built with **Streamlit** and the **Gro
 * `openai` - As the client for the Groq API
 * `python-dotenv` - For loading the API key
 
-Groq-LLM-Blog-Post-Generator/
+Blog-Generator-App-using-Groq
 │
-├── .env             # Stores the API key (not uploaded)
-├── blogg.py         # The main Streamlit app file
+├── blogg.py      # Main Streamlit app file
 ├── requirements.txt # Python dependencies
+├── .gitignore       # To ignore .env and other files
+├── .env             # API key file (not uploaded)
 └── README.md        # Project documentation
