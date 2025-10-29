@@ -1,4 +1,0 @@
-OpenAI
-streamlit
-python-dotenv
-os
