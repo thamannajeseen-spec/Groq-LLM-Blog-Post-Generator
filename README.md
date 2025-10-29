@@ -5,6 +5,7 @@ This project is a simple web application built with Streamlit that uses the Groq
 The application is designed to be run easily from a Google Colab notebook but can also be run on a local machine.
 
 
+
 ## 🚀 Features
 
 * Simple and clean web interface powered by Streamlit.
@@ -18,6 +19,7 @@ The application is designed to be run easily from a Google Colab notebook but ca
 * **Groq API:** For the Large Language Model.
 * **OpenAI Python Client:** Used as the client to interact with the Groq API.
 * **Google Colab:** As the primary development and runtime environment.
+* **Cloudflared:** To create a stable public URL for the Colab instance.
 
 ---
 
@@ -39,12 +41,36 @@ This project is set up to run directly in Google Colab with minimal setup.
     * Paste your copied Groq API key into the "Value" field.
     * Make sure to **toggle "Notebook access" ON**.
 
-4.  **Run the Notebook**
-    * In the Colab menu, click **"Runtime"** > **"Run all"**.
-    * The notebook will install `streamlit`, write the Python app script, and start the Streamlit server.
+4.  **Update Your Notebook Cells**
+    Your notebook should have several cells. Make sure the **last two cells** are set up as follows to run the app and the tunnel.
 
-5.  **View Your App**
-    * The output of the final cell will show several URLs. Click the **"External URL"** (it will look similar to `http://34.106.230.100:8501`).
-    * This will open your running Streamlit application in a new browser tab!
+    * **Cell 1 (Run Streamlit in Background):**
+        This cell runs your Streamlit app in the background using `nohup`.
+        ```python
+        !nohup streamlit run blogg.py &
+        ```
+
+    * **Cell 2 (Run Cloudflared Tunnel):**
+        Add a **new final cell** with these commands. This will download `cloudflared`, connect it to your Streamlit app (running on `localhost:8501`), and print your public URL.
+        ```python
+        !rm -f cloudflared-linux-amd64*
+        !wget [https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64](https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64)
+        !chmod +x cloudflared-linux-amd64
+        !nohup ./cloudflared-linux-amd64 tunnel --url http://localhost:8501 &
+        
+        # Wait a few seconds for the tunnel to initialize
+        import time
+        time.sleep(5)
+        
+        # Get the public URL
+        !grep -o 'https://.*\.trycloudflare.com' nohup.out
+        ```
+
+5.  **Run and View Your App**
+    * In the Colab menu, click **"Runtime"** > **"Run all"**.
+    * The **output of the very last cell** will be your public URL (e.g., `https://your-unique-name.trycloudflare.com`).
+    * Click this URL to open your running Streamlit application in a new browser tab!
+
+---
 
 ---
